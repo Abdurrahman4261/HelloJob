@@ -1,0 +1,22 @@
+﻿@page
+@{
+    ViewData["Title"] = "Merhaba Mesajı";
+}
+
+<h2>Sunucudan Gelen Mesaj:</h2>
+<p id="mesaj">Bekleniyor...</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+<script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/text")
+        .build();
+
+    connection.on("YeniMesaj", function (mesaj) {
+        document.getElementById("mesaj").innerText = mesaj;
+    });
+
+    connection.start().catch(function (err) {
+        return console.error(err.toString());
+    });
+</script>
